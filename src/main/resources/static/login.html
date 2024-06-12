@@ -3,14 +3,48 @@
 <head>
     <title>Login</title>
     <link rel="stylesheet" href="css/style.css" />
+    <style>
+     body {
+          margin: 0;
+          padding: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 100vh;
+     }
+
+       input {
+          width: 100%;
+          padding: 8px;
+          margin-bottom: 10px;
+          box-sizing: border-box;
+    }
+
+    button {
+      background-color: #4caf50;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    #log{
+        display: flex;
+        text-align: center;
+        align-item: top;
+        padding-right: 5rem;
+        }
+    </style>
 </head>
 <body>
-<h1>Login Page</h1>
+<h1 id="log">Login Page</h1>
 <form id="loginForm">
     <label for="username">Login ID:</label>
     <input type="text" id="username" name="username" required><br>
+    <br>
     <label for="password">Password:</label>
     <input type="password" id="password" name="password" required><br>
+    <br>
     <button type="submit">Submit</button>
 </form>
 
