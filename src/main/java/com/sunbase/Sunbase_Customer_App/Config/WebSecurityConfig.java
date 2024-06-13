@@ -19,35 +19,39 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class WebSecurityConfig {
 
+    //
+    // Injecting JwtRequestFilter to apply JWT-based authentication
     @Autowired
     private JwtRequestFilter jwtRequestFilter;
 
     @Autowired
     private UserDetailsService jwtUserDetailsService;
 
+    // Configure the security filter chain
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
-                .csrf().disable()
+                .csrf().disable() // Disable CSRF protection as we are using JWTs
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/authenticate", "/register").permitAll()
+                        .requestMatchers("/authenticate", "/register").permitAll() // Allow unauthenticated access to these endpoints
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
+        // Add JWT filter before the username and password authentication filter
         httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-
+        // Build and return the configured SecurityFilterChain
         return httpSecurity.build();
     }
-
+    // Bean for password encoding using BCrypt
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    // Bean for AuthenticationManager to manage authentication
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();

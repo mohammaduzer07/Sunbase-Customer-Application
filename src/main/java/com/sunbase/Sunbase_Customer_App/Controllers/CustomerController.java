@@ -13,15 +13,19 @@ import java.util.Optional;
 public class CustomerController {
     @Autowired
     private CustomerService customerService;
+        //Save customer in the Database
     @PostMapping
     public Customer createCustomer(@RequestBody Customer customer) {
         return customerService.saveCustomer(customer);
     }
+    //update the customer details
     @PutMapping("/{id}")
     public Customer updateCustomer(@PathVariable Long id, @RequestBody
     Customer customer) {
         return customerService.updateCustomer(id, customer);
     }
+
+    // get all the list of customers
     @GetMapping
     public Page<Customer> getAllCustomers(@RequestParam
                                           Optional<String> search,
@@ -34,11 +38,14 @@ public class CustomerController {
         return customerService.getCustomers(pageable,
                 search.orElse(""));
     }
+
+    // get the customer by id from the database
     @GetMapping("/{id}")
     public Customer getCustomerById(@PathVariable Long id) {
         return customerService.getCustomerById(id).orElseThrow(() ->
                 new RuntimeException("Customer not found"));
     }
+    // delete the customer from the database
     @DeleteMapping("/{id}")
     public void deleteCustomer(@PathVariable Long id) {
         customerService.deleteCustomer(id);

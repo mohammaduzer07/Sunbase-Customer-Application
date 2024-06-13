@@ -11,6 +11,8 @@ public class UserController {
     private UserRepository userRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    //Save the user in the database
     @PostMapping("/register")
     public String registerUser(@RequestBody User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
